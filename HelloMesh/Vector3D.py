@@ -50,11 +50,12 @@ class Vector3D(object):
         c = np.cross(v1.data, v2.data)
         return Vector3D(c[0], c[1], c[2])
 
+    @property
     def length(self):
-        return sum(x**2 for x in self.data)
+        return (sum(x ** 2 for x in self.data)) ** 0.5
 
     def normalize(self):
-        length = self.length()
+        length = self.length
         if length:
             self.data = self.data / length
 

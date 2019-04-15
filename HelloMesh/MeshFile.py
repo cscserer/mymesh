@@ -13,6 +13,7 @@ class MeshFile(object):
     """
     def __init__(self, path):
         s = path.split('/')
+        self.dir = "/".join(s[:-1])
         kind = s[-2]
         s = s[-1].split('.')
         suffix = s[1].upper()
@@ -23,7 +24,7 @@ class MeshFile(object):
         self.name = name
 
     def __repr__(self):
-        return 'name:{} path:{} kind:{} suffix:{}'.format(self.name, self.path, self.kind, self.suffix)
+        return 'name:{} path:{} dir:{} kind:{} suffix:{}'.format(self.name, self.path, self.dir, self.kind, self.suffix)
 
     @staticmethod
     def read_all(path, suffix=None):
