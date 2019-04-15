@@ -14,6 +14,19 @@ class FeatureRepo(object):
     def __init__(self):
         self.path = os.curdir
         self.meshes = []
+        self.data = np.array([])
+        self.target = np.array([])
+        self.type = ""
+        #TODO
+
+    def clean(self):
+        self.data = np.array([])
+        self.target = np.array([])
+        self.type = ""
+
+    def clean_all(self):
+        self.clean()
+        self.meshes = []
 
     def set_path(self, path):
         self.path = path
