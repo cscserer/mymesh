@@ -13,12 +13,12 @@ class MeshFile(object):
     """
     def __init__(self, path):
         s = path.split('/')
-        self.dir = "/".join(s[:-1])
+        self.dir = os.path.abspath("/".join(s[:-1]))
         kind = s[-2]
         s = s[-1].split('.')
         suffix = s[1].upper()
         name = s[0]
-        self.path = path
+        self.path = os.path.abspath(path)
         self.kind = kind
         self.suffix = suffix
         self.name = name

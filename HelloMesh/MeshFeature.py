@@ -21,16 +21,14 @@ class MeshFeature(object):
         self.data_type = data_type
         self.hist = np.array([])
 
-    def clear(self):
-        self.data = []
+    def clean(self):
+        self.data = np.array([])
         self.data_type = ''
 
     def get_feature(self, type, new_first=True):
         aim = self.id.dir + "/desc/{name}_{type}_new.{suffix}".format(name=self.id.name, type=type, suffix='txt')
         if not os.path.exists(aim):
              aim = self.id.dir + "/desc/{name}_{type}.{suffix}".format(name=self.id.name, type=type, suffix='txt')
-        print(aim)
-
         if os.path.exists(aim):
             with open(aim) as f:
                 list = []
@@ -42,10 +40,13 @@ class MeshFeature(object):
             return False
         return True
 
-    def save_feature(self, type, update=True):
-        aim = self.id.dir + "/desc/{name}_{type}.{suffix}".format(name=self.id.name, type=type, suffix='txt')
+    def save_feature(self, update=True):
+        aim = self.id.dir + "/desc/{name}_{type}.{suffix}".format(name=self.id.name, type=self.data_type, suffix='txt')
         if os.path.exists(aim):
-            aim = self.id.dir + "/desc/{name}_{type}_new.{suffix}".format(name=self.id.name, type=type, suffix='txt')
+            aim = self.id.dir + "/desc/{name}_{type}_new.{suffix}".format(name=self.id.name, type=self.data_type, suffix='txt')
+        aim_dir = self.id.dir + '/desc/'
+        if not os.path.exists(aim_dir):
+            os.mkdir(aim_dir)
         if os.path.exists(aim):
             if update:
                 os.remove(aim)
@@ -83,3 +84,4 @@ if __name__ == '__main__':
     for i in ids:
         m = MeshFeature(file=i)
         m.get_feature('area')
+        m.save_feature()

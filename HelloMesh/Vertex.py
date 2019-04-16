@@ -15,3 +15,10 @@ class Vertex(object):
         self.out = out
         self.n = n
         self.index = index
+
+    def __repr__(self):
+        return self.p.__repr__()
+
+if __name__ == '__main__':
+    v = Vertex(Vector3D(0,0,0))
+    print(v)
