@@ -31,8 +31,8 @@ class Mesh(object):
                     (x, y, z) = map(float, line.split())
                     self.vertices.append(Vertex(p=Vector3D(x, y, z), index=counter - 2))
                 elif counter < n + m + 2:
-                    indices = [int(x) - 1 for x in line.split()]
-                    v = indices[0] + 1
+                    indices = [int(x) for x in line.split()]
+                    v = indices[0]
                     indices = indices[1:]
                     h = []
                     for i in range(v - 1):
@@ -43,8 +43,10 @@ class Mesh(object):
                         h[i + 1].ph = h[i]
                     h[v - 1].nh = h[0]
                     h[0].ph = h[v - 1]
-
-                    self.faces.append(Face(side=h[v - 1], n=v, index=len(self.faces)))
+                    face = Face(side=h[v - 1], n=v, index=len(self.faces))
+                    self.faces.append(face)
+                    for i in range(v):
+                        h[i].polygon = face
                 counter += 1
         return self
 
@@ -69,6 +71,8 @@ class Mesh(object):
         h1.th = h2
         v1.out = h1
         v2.out = h2
+        v1.n += 1
+        v2.n += 1
         self.edges.append(h1)
         self.edges.append(h2)
         return h1
@@ -90,7 +94,7 @@ class Mesh(object):
                 f.write('{}'.format(face.n))
                 e = face.side
                 for i in range(face.n):
-                    f.write(' {}'.format(e.target.index + 1))
+                    f.write(' {}'.format(e.target.index))
                     e = e.nh
                 f.write('\n')
 

@@ -3,6 +3,8 @@
 """
 import os
 
+category = {'cup': 7, 'ant': 3, 'human': 2, 'airplane': 6, 'armdino': 1, 'teddy': 9, 'glasses': 10,
+            'fish': 12, 'fourleg': 14, 'octopus': 8, 'bird': 11, 'plier': 13, 'chair': 15, 'hand': 5, 'table': 4}
 
 class MeshFile(object):
     """
@@ -23,6 +25,7 @@ class MeshFile(object):
         self.suffix = suffix
         self.name = name
 
+
     def __repr__(self):
         return 'name:{} path:{} dir:{} kind:{} suffix:{}'.format(self.name, self.path, self.dir, self.kind, self.suffix)
 
@@ -42,7 +45,22 @@ class MeshFile(object):
                 if aim.split('.')[-1].upper() in suffix:
                     out.append(MeshFile(aim))
         return out
-
 if __name__ == '__main__':
-    set = MeshFile.read_all('/home/first/code/py')
-    print(set)
+    dat = MeshFile.read_all('/home/first/code/data/seg_bench')
+    for i in dat:
+        print('"{}",'.format(i.path), end="")
+        d = '/home/first/code/data/uni_299data/{}'.format(i.kind)
+        if not (os.path.exists(d)):
+            os.mkdir(d)
+    print()
+    print(len(dat))
+    for i in dat:
+        print('"/home/first/code/data/uni_299data/{}/{}.off",'.format(i.kind, i.name), end="")
+    print()
+    k = set({})
+    for i in dat:
+        k.add(i.kind)
+    print(k)
+
+
+
